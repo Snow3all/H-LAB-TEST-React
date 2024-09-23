@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState, useEffect } from "react";
 
-function App() {
+const UserProfile = ({ userId }) => {
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://api.example.com/users/${userId}`);
+        console.log("response:", response);
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const userData = await response.json();
+        setUser(userData);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchData();
+  }, [userId]);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+  if (!user) {
+    return <div>Loading...</div>;
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>{user.name}</h1>
+      <p>Email: {user.email}</p>
     </div>
   );
-}
+};
 
-export default App;
+export default UserProfile;

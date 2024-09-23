@@ -1,0 +1,2 @@
+useCallback ใช้ทําอะไร
+- useCallback การทำงานคล้าย useEffect แต่จะไม่ถูกเรียกใช้เมื่อมีการ re-render page ใช้เพื้่อลดอาการ memoryleak
